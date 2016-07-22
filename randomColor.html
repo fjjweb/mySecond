@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #box{
+            width: 1000px;
+            height: 500px;
+            background-color: pink;
+            border: 1px solid darkblue;
+            position: absolute;
+            /*background-color:rgba(100,220,25,0.5);*/
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script src =../特效第一天/common.js></script>
+<script>
+
+    //鼠标点击时动态生成小圆点（随机）
+    //找到盒子
+    var box = document.getElementById("box");
+    //给盒子注册点击事件
+    box.onmousemove = function(event) {
+
+        var event = event || window.event;
+        //获取鼠标点击的页面座标
+        var pageX = event.pageX || event.clientX + document.documentElement.scrollLeft;
+        var pageY = event.pageY || event.clientY + document.documentElement.scrollTop;
+        //动态生成一个盒子，并放在box中
+        var sbox=document.getElementsByClassName("circle");
+        if(sbox){
+            var timer=setInterval(function () {
+                box.removeChild(sbox);
+                clearInterval(timer);
+            },1000)
+        }
+
+        found();
+        function found(){
+
+            sbox = document.createElement("div");
+            box.appendChild(sbox);
+            sbox.className="circle";
+            //随机生成sbox的宽高,圆角
+            sbox.style.width = Math.random() * 60 +10+ "px";
+            sbox.style.height = parseInt(sbox.style.width) + "px";
+            sbox.style.borderRadius = parseInt(sbox.style.width) / 2+ "px";
+            //随机生成一个背景颜色
+            //sbox.style.backgroundColor = "blue";
+            //sbox.style.backgroundColor = colorArr[parseInt(Math.random()*10)];
+            sbox.style.backgroundColor =
+                    "rgba("+parseInt(Math.random()*225)+","+parseInt(Math.random()*225)+","+
+                    parseInt(Math.random()*225)+","+Math.random()+")";
+            //随机生成透明度
+            //sbox.style.opacity = Math.random()+0.2;
+            //设置sbox位置
+            var boxX = pageX - box.offsetLeft;//鼠标在盒子位置
+            var boxY = pageY - box.offsetTop;
+//            var sboxX = boxX - sbox.offsetWidth + Math.random() * 100 - 50;
+//            var sboxY = boxY - sbox.offsetHeight + Math.random() * 100 - 50;
+            var sboxX = boxX-parseInt(sbox.style.width)/2;
+            var sboxY = boxY-parseInt(sbox.style.width)/2;
+            if(sboxX < 0){
+                sboxX = 0;
+            }
+            if(sboxY < 0){
+                sboxY = 0;
+            }
+            if(sboxX > box.offsetWidth - sbox.offsetWidth ){
+                sboxX =  box.offsetWidth - sbox.offsetWidth;
+            }
+            if(sboxY > box.offsetHeight - sbox.offsetHeight){
+                sboxY = box.offsetHeight - sbox.offsetHeight;
+            }
+            sbox.style.position = "absolute";
+            sbox.style.left = sboxX +"px";
+            sbox.style.top = sboxY +"px";
+
+
+        }
+
+    }
+
+//    var timer=null;
+//
+//    btn.onclick= function () {
+//        timer=setInterval(function (lastbox) {
+//            box.removeChild(lastbox);
+//            clearInterval(timer);
+//        },2000)
+//    };
+</script>
+</body>
+</html>
